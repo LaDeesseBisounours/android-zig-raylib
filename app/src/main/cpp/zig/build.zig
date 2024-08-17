@@ -11,9 +11,11 @@ pub fn build(b: *std.Build) void {
     //WARNING
     //If you wish to use the same path to get objects to link against, you must maintain the same path and
     //not prepend the ../ directory
-    const relative_output_dir = concatString(b, "../", getRelativePath(b, output_dir));
+    const relative_link_dir = getRelativePath(b, output_dir);
+    const relative_output_dir = concatString(b, "../", relative_link_dir);
 
     std.debug.print("output_dir = {s}\n", .{output_dir});
+    std.debug.print("relative_link_dir = {s}\n", .{relative_link_dir});
     std.debug.print("relative_output_dir = {s}\n", .{relative_output_dir});
 
     const optimize = b.standardOptimizeOption(.{});
@@ -27,6 +29,10 @@ pub fn build(b: *std.Build) void {
 
     //needed to be linked by C code
     lib.bundle_compiler_rt = true;
+
+    lib.addObjectFile(std.Build.LazyPath{ .cwd_relative = concatString(b, relative_link_dir, "/../raylib/raylib/libraylib.a") });
+
+    lib.addIncludePath(std.Build.LazyPath{ .cwd_relative = concatString(b, relative_link_dir, "/../raylib/raylib/include/") });
 
     //use output dir for install
     const target_output = b.addInstallArtifact(lib, .{

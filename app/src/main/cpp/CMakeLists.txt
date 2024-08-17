@@ -22,6 +22,8 @@ add_subdirectory(raylib)
 
 add_subdirectory(zig)
 
+add_dependencies(buildingzig raylib)
+
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.

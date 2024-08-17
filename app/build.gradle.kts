@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.zigandroidexample"
-        minSdk = 16
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

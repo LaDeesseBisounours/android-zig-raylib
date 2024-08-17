@@ -1,4 +1,5 @@
 #build output, this is actually required for at least one build artifact (see add_custom_command)
+set(ZIG_BIN "/home/mariezen/.local/share/zig-linux-x86_64-0.13.0/zig")
 set(ZIG_LIB "${CMAKE_CURRENT_BINARY_DIR}/libzig.so")
 
 if (CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")
@@ -36,7 +37,7 @@ add_custom_command(
         COMMAND
         echo "building ${ZIG_LIB}"
         COMMAND
-        bash -c 'cd ${CMAKE_CURRENT_SOURCE_DIR} && zig build -Doutput_dir=\"${CMAKE_CURRENT_BINARY_DIR}\" -Dtarget=\"${ZIG_TARGET}\"'
+        bash -c 'cd ${CMAKE_CURRENT_SOURCE_DIR} && ${ZIG_BIN} build -Doutput_dir=\"${CMAKE_CURRENT_BINARY_DIR}\" -Dtarget=\"${ZIG_TARGET}\"'
 )
 
 #Finally we create a target for our library, GLOBAL is required for the target to be accessible at higher levels

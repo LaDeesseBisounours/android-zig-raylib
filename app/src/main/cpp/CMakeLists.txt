@@ -19,6 +19,9 @@ set(PLATFORM "Android" CACHE STRING "" FORCE)
 ##set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIE -fPIC")
 
 add_subdirectory(raylib)
+
+add_subdirectory(zig)
+
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -42,6 +45,7 @@ add_library(main SHARED
 # build script, prebuilt third-party libraries, or Android system libraries.
 target_link_libraries(main
         # List libraries link to the target library
+        myziglib
         raylib
         android
         log)

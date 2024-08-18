@@ -1,5 +1,9 @@
 #build output, this is actually required for at least one build artifact (see add_custom_command)
-set(ZIG_BIN "/home/mariezen/.local/share/zig-linux-x86_64-0.13.0/zig")
+#set(ZIG_BIN "/home/mariezen/.local/share/zig-linux-x86_64-0.13.0/zig")
+find_program(ZIG_BIN "zig" 
+    PATHS "$ENV{HOME}/.local/share/"
+    REQUIRED)
+
 set(ZIG_LIB "${CMAKE_CURRENT_BINARY_DIR}/libzig.so")
 
 if (CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")

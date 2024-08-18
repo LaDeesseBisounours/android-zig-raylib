@@ -1,0 +1,3 @@
+[submodule "app/src/main/cpp/raylib"]
+	path = app/src/main/cpp/raylib
+	url = https://github.com/raysan5/raylib.git

@@ -1,11 +1,12 @@
-#build output, this is actually required for at least one build artifact (see add_custom_command)
-#set(ZIG_BIN "/home/mariezen/.local/share/zig-linux-x86_64-0.13.0/zig")
-find_program(ZIG_BIN "zig" 
+#search for zig executable
+find_program(ZIG_BUILD_BIN "zig" 
     PATHS "$ENV{HOME}/.local/share/"
     REQUIRED)
 
+#name of the lib produced
 set(ZIG_LIB "${CMAKE_CURRENT_BINARY_DIR}/libzig.so")
 
+#translate target arch from cmake  to zig arch
 if (CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")
     set(ZIG_TARGET "arm-linux")
     message(STATUS "Target is ${ZIG_TARGET}")
@@ -19,6 +20,7 @@ elseif(CMAKE_ANDROID_ARCH_ABI STREQUAL "x86_64")
     set(ZIG_TARGET "x86_64-linux")
     message(STATUS "Target is ${ZIG_TARGET}")
 else()
+    #halts build
     message(FATAL_ERROR "ERROR no valid target selected, CMAKE_ANDROID_ARCH_ABI = ${CMAKE_ANDROID_ARCH_ABI}")
 endif()
 
@@ -32,8 +34,7 @@ add_custom_target(buildingzig
 #custom command that contains the code to run
 #OUTPUT can be one or many files (one may be sufficient in any case) #COMMAND command must use bash -c and SINGLE QUOTES and cd to the zig directory and finally run the command
 #using double quotes or not using cd will break everything
-#we call zig build with option -Doutput_dir which is a custom option to specify where zig build should output its 
-#libraries etc (see build.zig for more details)
+#we call zig build with option -Doutput_dir which is a custom option to specify where zig build should output files
 add_custom_command(
         OUTPUT ${ZIG_LIB}
         COMMENT
@@ -41,7 +42,7 @@ add_custom_command(
         COMMAND
         echo "building ${ZIG_LIB}"
         COMMAND
-        bash -c 'cd ${CMAKE_CURRENT_SOURCE_DIR} && ${ZIG_BIN} build -Doutput_dir=\"${CMAKE_CURRENT_BINARY_DIR}\" -Dtarget=\"${ZIG_TARGET}\"'
+        bash -c 'cd ${CMAKE_CURRENT_SOURCE_DIR} && ${ZIG_BUILD_BIN} build -Doutput_dir=\"${CMAKE_CURRENT_BINARY_DIR}\" -Dtarget=\"${ZIG_TARGET}\"'
 )
 
 #Finally we create a target for our library, GLOBAL is required for the target to be accessible at higher levels

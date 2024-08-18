@@ -1,6 +1,6 @@
 #search for zig executable
 find_program(ZIG_BUILD_BIN "zig" 
-    PATHS "$ENV{HOME}/.local/share/"
+    PATHS "$ENV{HOME}/.local/share/zig-linux-x86_64-0.13.0/"
     REQUIRED)
 
 #name of the lib produced
